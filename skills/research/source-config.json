@@ -1,0 +1,76 @@
+{
+  "sources": {
+    "reddit": {
+      "search_pattern": "{TOPIC} site:reddit.com 2026",
+      "engagement_weight": 1.0,
+      "engagement_signals": ["upvotes", "comments"],
+      "validation": "Community consensus — high upvotes = validated opinion",
+      "output_format": "r/{subreddit}: \"{quote}\" ({upvotes} upvotes)"
+    },
+    "hacker_news": {
+      "search_pattern": "{TOPIC} site:news.ycombinator.com 2026",
+      "engagement_weight": 0.95,
+      "engagement_signals": ["points", "comments"],
+      "validation": "Technical consensus — points reflect expert validation",
+      "output_format": "\"{title}\" ({points} points, {comments} comments)"
+    },
+    "youtube": {
+      "search_pattern": "{TOPIC} site:youtube.com 2026",
+      "engagement_weight": 0.8,
+      "engagement_signals": ["views", "like_ratio"],
+      "validation": "Broad interest — views prove mainstream relevance",
+      "output_format": "\"{video_title}\" ({views} views)"
+    },
+    "x_twitter": {
+      "search_pattern": "{TOPIC} site:x.com OR site:twitter.com 2026",
+      "engagement_weight": 0.75,
+      "engagement_signals": ["likes", "reposts"],
+      "validation": "Real-time relevance — recency + engagement",
+      "output_format": "@{handle}: \"{tweet}\" ({likes} likes)"
+    },
+    "web_general": {
+      "search_patterns": {
+        "RECOMMENDATIONS": "best {TOPIC} 2026",
+        "NEWS": "{TOPIC} news 2026",
+        "PROMPTING": "{TOPIC} prompts examples",
+        "GENERAL": "{TOPIC} 2026 discussion"
+      },
+      "engagement_weight": 0.6,
+      "engagement_signals": ["publication_authority"],
+      "validation": "Editorial quality — authority of publication",
+      "output_format": "{publication}: \"{title}\""
+    },
+    "expert_deep": {
+      "search_pattern": "{TOPIC} analysis review comparison 2026",
+      "engagement_weight": 0.7,
+      "engagement_signals": ["depth", "citations"],
+      "validation": "Depth of analysis — comprehensive reviews",
+      "output_format": "\"{title}\" — {source}"
+    }
+  },
+  "query_type_detection": {
+    "RECOMMENDATIONS": ["best", "top", "recommend", "which", "compare"],
+    "NEWS": ["news", "announced", "launched", "released", "update"],
+    "PROMPTING": ["prompt", "how to use", "tips", "techniques", "guide"],
+    "GENERAL": ["default"]
+  },
+  "cross_platform_convergence": {
+    "description": "Same topic/product/opinion appearing on 2+ platforms = strongest signal",
+    "scoring": {
+      "2_platforms": 1.5,
+      "3_platforms": 2.0,
+      "4_platforms": 3.0,
+      "5_plus_platforms": 5.0
+    }
+  },
+  "recency_weight": {
+    "last_7_days": 1.0,
+    "last_30_days": 0.8,
+    "last_90_days": 0.5,
+    "older": 0.3
+  },
+  "meta": {
+    "version": "2.0.0",
+    "branding": "10x.in"
+  }
+}

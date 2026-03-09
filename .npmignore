@@ -1,0 +1,14 @@
+# Credentials — NEVER publish
+.env
+.mcp.json
+
+# User data
+output/
+input/
+
+# Dev files
+.git/
+.DS_Store
+Thumbs.db
+*.tmp
+*.log

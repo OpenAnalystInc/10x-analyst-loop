@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "10x Analyst Loop API Export",
+  "description": "Structured JSON export of all analysis artifacts for a project",
+  "type": "object",
+  "properties": {
+    "meta": {
+      "type": "object",
+      "properties": {
+        "project": { "type": "string" },
+        "generated_at": { "type": "string", "format": "date-time" },
+        "session_id": { "type": "string" },
+        "version": { "type": "string" },
+        "tool": { "type": "string", "const": "10x Analyst Loop" },
+        "url": { "type": "string", "const": "https://10x.in" }
+      }
+    },
+    "profile": { "type": ["string", "null"] },
+    "insights": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "headline": { "type": "string" },
+          "category": { "type": "string" },
+          "value": { "type": "number" },
+          "change_pct": { "type": "number" },
+          "implication": { "type": "string" }
+        }
+      }
+    },
+    "kpis": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": { "type": "string" },
+          "value": { "type": "string" },
+          "delta": { "type": "number" },
+          "period": { "type": "string" }
+        }
+      }
+    },
+    "charts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "path": { "type": "string" }
+        }
+      }
+    },
+    "report_text": { "type": ["string", "null"] },
+    "dashboard_path": { "type": ["string", "null"] },
+    "cleaned_files": { "type": "array", "items": { "type": "string" } },
+    "input_files": { "type": "array", "items": { "type": "string" } }
+  }
+}

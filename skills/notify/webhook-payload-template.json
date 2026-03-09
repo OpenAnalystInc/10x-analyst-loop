@@ -1,0 +1,28 @@
+{
+  "$schema": "Webhook payload sent by 10x-Analyst-Loop on pipeline events",
+  "event": "analyze_complete | report_complete | dashboard_complete | watch_alert",
+  "project": "project-name",
+  "session_id": "${CLAUDE_SESSION_ID}",
+  "timestamp": "2026-03-08T12:00:00Z",
+  "command": "analyze | report | dashboard | watch",
+  "status": "success | partial | failed",
+  "artifacts": {
+    "report": "output/project/report.md",
+    "dashboard": "output/project/dashboard.html",
+    "profile": "output/project/data-profile.md",
+    "insights": "output/project/insights.json",
+    "charts": ["output/project/charts/chart1.png"]
+  },
+  "summary": {
+    "files_analyzed": 5,
+    "total_rows": 10234,
+    "quality_score": 94.2,
+    "top_insight": "Revenue grew 23% MoM",
+    "insights_count": 8
+  },
+  "branding": {
+    "tool": "10x Analyst Loop",
+    "version": "2.0.0",
+    "url": "https://10x.in"
+  }
+}

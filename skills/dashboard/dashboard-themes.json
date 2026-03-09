@@ -1,0 +1,77 @@
+{
+  "themes": {
+    "default": {
+      "name": "10x Default",
+      "background": "#F5EDE0",
+      "card_bg": "#FFFFFF",
+      "card_shadow": "0 2px 8px rgba(0,0,0,0.08)",
+      "card_radius": "12px",
+      "text_primary": "#073B4C",
+      "text_secondary": "#555555",
+      "heading_color": "#004E89",
+      "accent": "#FF6B35",
+      "positive": "#00A878",
+      "negative": "#EF476F",
+      "neutral": "#004E89",
+      "chart_colors": ["#FF6B35", "#004E89", "#00A878", "#FFD166", "#EF476F", "#118AB2", "#073B4C"],
+      "grid_color": "#eeeeee",
+      "border_color": "#dddddd"
+    },
+    "dark": {
+      "name": "10x Dark",
+      "background": "#1a1a2e",
+      "card_bg": "#16213e",
+      "card_shadow": "0 2px 12px rgba(0,0,0,0.3)",
+      "card_radius": "12px",
+      "text_primary": "#e0e0e0",
+      "text_secondary": "#a0a0a0",
+      "heading_color": "#64b5f6",
+      "accent": "#FF6B35",
+      "positive": "#4caf50",
+      "negative": "#ef5350",
+      "neutral": "#64b5f6",
+      "chart_colors": ["#FF6B35", "#64b5f6", "#4caf50", "#FFD166", "#ef5350", "#26c6da", "#ab47bc"],
+      "grid_color": "#2a2a4a",
+      "border_color": "#333366"
+    },
+    "minimal": {
+      "name": "10x Minimal",
+      "background": "#FFFFFF",
+      "card_bg": "#FAFAFA",
+      "card_shadow": "0 1px 3px rgba(0,0,0,0.05)",
+      "card_radius": "8px",
+      "text_primary": "#333333",
+      "text_secondary": "#777777",
+      "heading_color": "#333333",
+      "accent": "#FF6B35",
+      "positive": "#2e7d32",
+      "negative": "#c62828",
+      "neutral": "#1565c0",
+      "chart_colors": ["#FF6B35", "#1565c0", "#2e7d32", "#f9a825", "#c62828", "#00838f", "#6a1b9a"],
+      "grid_color": "#f0f0f0",
+      "border_color": "#e0e0e0"
+    },
+    "corporate": {
+      "name": "10x Corporate",
+      "background": "#f8f9fa",
+      "card_bg": "#FFFFFF",
+      "card_shadow": "0 1px 4px rgba(0,0,0,0.1)",
+      "card_radius": "4px",
+      "text_primary": "#212529",
+      "text_secondary": "#6c757d",
+      "heading_color": "#004E89",
+      "accent": "#004E89",
+      "positive": "#28a745",
+      "negative": "#dc3545",
+      "neutral": "#007bff",
+      "chart_colors": ["#004E89", "#17a2b8", "#28a745", "#ffc107", "#dc3545", "#6610f2", "#e83e8c"],
+      "grid_color": "#e9ecef",
+      "border_color": "#dee2e6"
+    }
+  },
+  "meta": {
+    "default_theme": "default",
+    "version": "2.0.0",
+    "branding": "10x.in"
+  }
+}

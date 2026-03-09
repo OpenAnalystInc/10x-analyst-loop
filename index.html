@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>10x-Analyst-Loop — Supercharged Agentic Analysis Swarm</title>
+<style>
+  :root {
+    --orange: #FF6B35;
+    --blue: #004E89;
+    --green: #00A878;
+    --yellow: #FFD166;
+    --coral: #EF476F;
+    --ocean: #118AB2;
+    --midnight: #073B4C;
+    --cream: #F5EDE0;
+    --white: #ffffff;
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-300: #d1d5db;
+    --gray-500: #6b7280;
+    --gray-700: #374151;
+    --gray-800: #1f2937;
+    --gray-900: #111827;
+    --radius: 16px;
+    --radius-sm: 10px;
+    --shadow: 0 4px 24px rgba(0,0,0,0.08);
+    --shadow-lg: 0 12px 48px rgba(0,0,0,0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    color: var(--gray-900);
+    line-height: 1.6;
+    background: var(--white);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Nav ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--gray-200);
+    padding: 0 2rem;
+    height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-brand { font-weight: 800; font-size: 1.15rem; color: var(--midnight); display: flex; align-items: center; gap: .5rem; text-decoration: none; }
+  .nav-brand span { color: var(--orange); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { text-decoration: none; color: var(--gray-700); font-size: .9rem; font-weight: 500; transition: color .2s; }
+  .nav-links a:hover { color: var(--orange); }
+  .nav-cta { background: var(--orange); color: white; padding: .55rem 1.4rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: .9rem; transition: transform .15s, box-shadow .15s; }
+  .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(255,107,53,.35); }
+
+  /* ── Sections ── */
+  section { padding: 6rem 2rem; }
+  .container { max-width: 1140px; margin: 0 auto; }
+  .section-label { display: inline-block; font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--orange); margin-bottom: .75rem; }
+  .section-title { font-size: 2.5rem; font-weight: 800; color: var(--midnight); line-height: 1.2; margin-bottom: 1rem; }
+  .section-sub { font-size: 1.15rem; color: var(--gray-500); max-width: 640px; margin-bottom: 3rem; }
+  .text-center { text-align: center; }
+  .mx-auto { margin-left: auto; margin-right: auto; }
+
+  /* ── Hero ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(168deg, var(--cream) 0%, var(--white) 55%, #e8f4f0 100%);
+    padding-top: 64px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -40%; right: -20%;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(255,107,53,.08) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero-badge { display: inline-flex; align-items: center; gap: .5rem; background: var(--white); border: 1px solid var(--gray-200); padding: .4rem 1rem; border-radius: 999px; font-size: .85rem; font-weight: 600; color: var(--gray-700); margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,.04); }
+  .hero-badge .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); }
+  .hero h1 { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900; color: var(--midnight); line-height: 1.1; margin-bottom: 1.25rem; }
+  .hero h1 span { color: var(--orange); }
+  .hero p { font-size: 1.2rem; color: var(--gray-500); max-width: 600px; margin: 0 auto 2.5rem; }
+  .hero-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .btn { display: inline-flex; align-items: center; gap: .5rem; padding: .8rem 2rem; border-radius: 10px; font-weight: 700; font-size: 1rem; text-decoration: none; transition: all .2s; border: none; cursor: pointer; }
+  .btn-primary { background: var(--orange); color: white; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,107,53,.3); }
+  .btn-outline { background: transparent; color: var(--midnight); border: 2px solid var(--gray-300); }
+  .btn-outline:hover { border-color: var(--orange); color: var(--orange); }
+
+  .hero-code {
+    margin-top: 3.5rem;
+    background: var(--gray-900);
+    color: #e5e7eb;
+    padding: 1.5rem 2rem;
+    border-radius: var(--radius);
+    text-align: left;
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+    font-size: .9rem;
+    line-height: 1.8;
+    max-width: 620px;
+    margin-left: auto; margin-right: auto;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+  }
+  .hero-code .line-comment { color: #6b7280; }
+  .hero-code .line-cmd { color: var(--orange); }
+  .hero-code .line-arg { color: var(--green); }
+  .hero-code-dots { display: flex; gap: 6px; margin-bottom: 1rem; }
+  .hero-code-dots span { width: 12px; height: 12px; border-radius: 50%; }
+  .hero-code-dots span:nth-child(1) { background: #ef4444; }
+  .hero-code-dots span:nth-child(2) { background: #eab308; }
+  .hero-code-dots span:nth-child(3) { background: #22c55e; }
+
+  /* ── Stats row ── */
+  .stats-row {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem;
+    margin-top: -3rem;
+    position: relative; z-index: 2;
+  }
+  .stat-card {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius);
+    padding: 2rem;
+    text-align: center;
+    box-shadow: var(--shadow);
+  }
+  .stat-card .num { font-size: 2.5rem; font-weight: 900; color: var(--orange); }
+  .stat-card .label { font-size: .9rem; color: var(--gray-500); margin-top: .25rem; }
+
+  /* ── How It Works ── */
+  .how-it-works { background: var(--gray-50); }
+  .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+  .step-card { background: var(--white); border-radius: var(--radius); padding: 2rem; border: 1px solid var(--gray-200); position: relative; transition: transform .2s, box-shadow .2s; }
+  .step-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+  .step-num { width: 40px; height: 40px; border-radius: 50%; background: var(--orange); color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1rem; margin-bottom: 1rem; }
+  .step-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: .5rem; color: var(--midnight); }
+  .step-card p { font-size: .9rem; color: var(--gray-500); }
+
+  /* ── Swarm Architecture ── */
+  .architecture-visual {
+    background: var(--gray-900);
+    border-radius: var(--radius);
+    padding: 3rem;
+    color: white;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: .85rem;
+    line-height: 1.7;
+    overflow-x: auto;
+    white-space: pre;
+    box-shadow: var(--shadow-lg);
+    margin-top: 2rem;
+  }
+  .arch-orange { color: var(--orange); }
+  .arch-green { color: var(--green); }
+  .arch-blue { color: var(--ocean); }
+  .arch-yellow { color: var(--yellow); }
+  .arch-dim { color: #6b7280; }
+
+  /* ── Features Grid ── */
+  .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+  .feature-card {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius);
+    padding: 2rem;
+    transition: transform .2s, box-shadow .2s;
+  }
+  .feature-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+  .feature-icon {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+  }
+  .feature-card h3 { font-size: 1.05rem; font-weight: 700; color: var(--midnight); margin-bottom: .5rem; }
+  .feature-card p { font-size: .9rem; color: var(--gray-500); }
+  .icon-orange { background: rgba(255,107,53,.1); }
+  .icon-blue { background: rgba(0,78,137,.1); }
+  .icon-green { background: rgba(0,168,120,.1); }
+  .icon-coral { background: rgba(239,71,111,.1); }
+  .icon-ocean { background: rgba(17,138,178,.1); }
+  .icon-yellow { background: rgba(255,209,102,.15); }
+
+  /* ── Commands ── */
+  .commands-section { background: var(--gray-50); }
+  .cmd-group { margin-bottom: 2.5rem; }
+  .cmd-group-title { font-size: 1.2rem; font-weight: 700; color: var(--midnight); margin-bottom: 1rem; display: flex; align-items: center; gap: .5rem; }
+  .cmd-group-title .badge { font-size: .7rem; background: var(--orange); color: white; padding: .2rem .6rem; border-radius: 999px; font-weight: 700; }
+  .cmd-table { width: 100%; border-collapse: collapse; background: var(--white); border-radius: var(--radius-sm); overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+  .cmd-table th { background: var(--midnight); color: white; text-align: left; padding: .8rem 1.2rem; font-size: .8rem; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; }
+  .cmd-table td { padding: .8rem 1.2rem; border-bottom: 1px solid var(--gray-100); font-size: .9rem; }
+  .cmd-table tr:last-child td { border-bottom: none; }
+  .cmd-table code { background: var(--gray-100); padding: .15rem .5rem; border-radius: 4px; font-size: .85rem; color: var(--orange); font-weight: 600; white-space: nowrap; }
+
+  /* ── Use Cases ── */
+  .use-case {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius);
+    padding: 2.5rem;
+    margin-bottom: 2.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+    align-items: start;
+    transition: box-shadow .2s;
+  }
+  .use-case:hover { box-shadow: var(--shadow-lg); }
+  .use-case.reverse .uc-text { order: 2; }
+  .use-case.reverse .uc-visual { order: 1; }
+  .uc-number { font-size: .8rem; font-weight: 700; color: var(--orange); text-transform: uppercase; letter-spacing: .1em; margin-bottom: .5rem; }
+  .uc-title { font-size: 1.5rem; font-weight: 800; color: var(--midnight); margin-bottom: .5rem; }
+  .uc-persona { font-size: .95rem; color: var(--gray-500); font-style: italic; margin-bottom: 1rem; }
+  .uc-scenario { font-size: .95rem; color: var(--gray-700); margin-bottom: 1.25rem; }
+  .uc-code {
+    background: var(--gray-900);
+    color: #e5e7eb;
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-sm);
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: .82rem;
+    line-height: 1.7;
+    margin-bottom: 1.25rem;
+    overflow-x: auto;
+  }
+  .uc-code .comment { color: #6b7280; }
+  .uc-code .cmd { color: var(--orange); }
+  .uc-code .arg { color: var(--green); }
+  .uc-results { list-style: none; }
+  .uc-results li { padding: .4rem 0; font-size: .9rem; color: var(--gray-700); display: flex; align-items: flex-start; gap: .5rem; }
+  .uc-results li::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--green); flex-shrink: 0; margin-top: .45rem; }
+  .uc-visual {
+    background: var(--cream);
+    border-radius: var(--radius-sm);
+    padding: 2rem;
+  }
+  .uc-output-table { width: 100%; border-collapse: collapse; font-size: .85rem; }
+  .uc-output-table th { text-align: left; padding: .5rem .75rem; font-weight: 700; color: var(--midnight); border-bottom: 2px solid var(--gray-300); }
+  .uc-output-table td { padding: .5rem .75rem; border-bottom: 1px solid var(--gray-200); color: var(--gray-700); }
+  .uc-mcp-tags { display: flex; gap: .5rem; flex-wrap: wrap; margin-top: 1rem; }
+  .uc-mcp-tag { font-size: .75rem; background: rgba(0,78,137,.08); color: var(--blue); padding: .25rem .65rem; border-radius: 999px; font-weight: 600; }
+
+  /* ── MCP ── */
+  .mcp-diagram {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius);
+    padding: 2.5rem;
+    box-shadow: var(--shadow);
+  }
+  .mcp-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 2rem; }
+  .mcp-col { text-align: center; }
+  .mcp-col-title { font-weight: 700; font-size: .9rem; color: var(--midnight); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: .05em; }
+  .mcp-items { list-style: none; display: flex; flex-direction: column; gap: .5rem; }
+  .mcp-items li {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    padding: .6rem 1rem;
+    font-size: .9rem;
+    font-weight: 500;
+    color: var(--gray-700);
+  }
+  .mcp-flow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2.5rem; }
+  .mcp-flow-step { background: var(--gray-50); border-radius: var(--radius-sm); padding: 1.5rem; text-align: center; }
+  .mcp-flow-step .step-icon { font-size: 2rem; margin-bottom: .75rem; }
+  .mcp-flow-step h4 { font-size: .95rem; font-weight: 700; color: var(--midnight); margin-bottom: .4rem; }
+  .mcp-flow-step p { font-size: .85rem; color: var(--gray-500); }
+
+  /* ── Domain Detection ── */
+  .domain-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+  .domain-card {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius);
+    padding: 1.75rem;
+    transition: transform .2s;
+  }
+  .domain-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+  .domain-card .domain-icon { font-size: 1.5rem; margin-bottom: .75rem; }
+  .domain-card h3 { font-size: 1.05rem; font-weight: 700; color: var(--midnight); margin-bottom: .35rem; }
+  .domain-card .trigger { font-size: .8rem; color: var(--gray-500); margin-bottom: .75rem; }
+  .domain-card .trigger code { background: var(--gray-100); padding: .1rem .4rem; border-radius: 3px; font-size: .78rem; }
+  .domain-card ul { list-style: none; font-size: .85rem; color: var(--gray-700); }
+  .domain-card ul li { padding: .15rem 0; }
+  .domain-card ul li::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--orange); margin-right: .5rem; vertical-align: middle; }
+
+  /* ── Statusline ── */
+  .statusline-preview {
+    background: var(--gray-900);
+    color: #e5e7eb;
+    padding: 2rem;
+    border-radius: var(--radius);
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: .85rem;
+    line-height: 1.8;
+    box-shadow: var(--shadow-lg);
+    margin-top: 2rem;
+    max-width: 640px;
+  }
+  .sl-dim { color: #6b7280; }
+  .sl-orange { color: var(--orange); }
+  .sl-green { color: var(--green); }
+  .sl-yellow { color: var(--yellow); }
+  .sl-blue { color: var(--ocean); }
+  .sl-bar-filled { color: var(--orange); }
+  .sl-bar-empty { color: #374151; }
+
+  /* ── CTA ── */
+  .cta-section {
+    background: linear-gradient(135deg, var(--midnight) 0%, #0a2540 100%);
+    color: white;
+    text-align: center;
+  }
+  .cta-section .section-title { color: white; }
+  .cta-section .section-sub { color: rgba(255,255,255,.6); }
+  .cta-code {
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.12);
+    color: var(--gray-200);
+    padding: 1.25rem 2rem;
+    border-radius: var(--radius-sm);
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: .95rem;
+    display: inline-block;
+    margin-bottom: 2rem;
+  }
+  .cta-code .hl { color: var(--orange); font-weight: 700; }
+
+  /* ── Footer ── */
+  footer {
+    background: var(--gray-900);
+    color: var(--gray-500);
+    padding: 3rem 2rem;
+    text-align: center;
+    font-size: .85rem;
+  }
+  footer a { color: var(--orange); text-decoration: none; }
+  footer .footer-brand { font-size: 1.1rem; font-weight: 800; color: white; margin-bottom: .5rem; }
+
+  /* ── Responsive ── */
+  @media (max-width: 1024px) {
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+    .steps-grid { grid-template-columns: repeat(2, 1fr); }
+    .features-grid { grid-template-columns: repeat(2, 1fr); }
+    .mcp-cols { grid-template-columns: 1fr; }
+    .mcp-flow { grid-template-columns: 1fr; }
+    .domain-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    section { padding: 4rem 1.25rem; }
+    .hero h1 { font-size: 2.2rem; }
+    .stats-row { grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: -2rem; }
+    .steps-grid { grid-template-columns: 1fr; }
+    .features-grid { grid-template-columns: 1fr; }
+    .use-case { grid-template-columns: 1fr; }
+    .use-case.reverse .uc-text { order: 1; }
+    .use-case.reverse .uc-visual { order: 2; }
+    .section-title { font-size: 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ NAV ═══════════ -->
+<nav>
+  <a href="#" class="nav-brand"><span>10x</span> Analyst-Loop</a>
+  <ul class="nav-links">
+    <li><a href="#how-it-works">How It Works</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#commands">Commands</a></li>
+    <li><a href="#use-cases">Use Cases</a></li>
+    <li><a href="#mcp">MCP</a></li>
+    <li><a href="#architecture">Architecture</a></li>
+  </ul>
+  <div style="display:flex;gap:.75rem;align-items:center;">
+    <a href="https://github.com/OpenAnalystInc/10x-analyst-loop" class="nav-cta" target="_blank" style="background:var(--midnight);">GitHub</a>
+    <a href="https://10x.in" class="nav-cta" target="_blank">Visit 10x.in</a>
+  </div>
+</nav>
+
+<!-- ═══════════ HERO ═══════════ -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-badge"><span class="dot"></span> v2.1.1 — Agent Swarms + MCP Integration</div>
+    <h1>Data Analysis on<br/><span>Autopilot</span></h1>
+    <p>A multi-agent Claude Code plugin that transforms raw CSV, Excel, and JSON files into insights, reports, dashboards, and business recommendations — fully automated.</p>
+    <div class="hero-actions">
+      <a href="#use-cases" class="btn btn-primary">See Use Cases</a>
+      <a href="#commands" class="btn btn-outline">View All Commands</a>
+    </div>
+    <div class="hero-code">
+      <div class="hero-code-dots"><span></span><span></span><span></span></div>
+      <span class="line-comment"># Point at any folder. Walk away. Come back to a full analysis.</span><br/>
+      <span class="line-cmd">/10x-analyst-loop:analyze</span> <span class="line-arg">C:/Users/you/sales-data</span><br/><br/>
+      <span class="line-comment"># Connect Shopify + Slack for live data + notifications</span><br/>
+      <span class="line-cmd">/10x-analyst-loop:connect</span> <span class="line-arg">my-store shopify</span><br/>
+      <span class="line-cmd">/10x-analyst-loop:connect</span> <span class="line-arg">my-store slack #analytics</span><br/><br/>
+      <span class="line-comment"># Analyze all projects in parallel — one agent per project</span><br/>
+      <span class="line-cmd">/10x-analyst-loop:batch-analyze</span> <span class="line-arg">input/*</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ STATS ═══════════ -->
+<section style="padding-top: 0;">
+  <div class="container">
+    <div class="stats-row">
+      <div class="stat-card"><div class="num">18</div><div class="label">Slash Commands</div></div>
+      <div class="stat-card"><div class="num">5</div><div class="label">Specialist Agents</div></div>
+      <div class="stat-card"><div class="num">8</div><div class="label">Swarm Patterns</div></div>
+      <div class="stat-card"><div class="num">12+</div><div class="label">MCP Integrations</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ HOW IT WORKS ═══════════ -->
+<section class="how-it-works" id="how-it-works">
+  <div class="container">
+    <div class="text-center">
+      <div class="section-label">How It Works</div>
+      <h2 class="section-title">Four Steps. Zero Config.</h2>
+      <p class="section-sub mx-auto">Drop your data anywhere. Point the plugin at it. Get a complete analysis — cleaned data, statistical insights, charts, an interactive dashboard, and a business-ready report.</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <h3>Point at Data</h3>
+        <p>Give any command a project name or a folder path from anywhere on your system. The plugin auto-copies data files into the project registry.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <h3>Agent Swarm Activates</h3>
+        <p>5 specialist agents (Data Engineer, Statistician, Visualizer, Reporter, Strategist) coordinate through an orchestrated pipeline with parallel execution.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <h3>Analysis Runs</h3>
+        <p>Profiling, cleaning, EDA, chart generation, dashboard building, and report writing — all happen automatically with domain-specific intelligence.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">4</div>
+        <h3>Results Delivered</h3>
+        <p>Open your interactive dashboard, read the Markdown report, explore the charts. Optionally send results to Slack, Gmail, or Discord via MCP.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ FEATURES ═══════════ -->
+<section id="features">
+  <div class="container">
+    <div class="text-center">
+      <div class="section-label">Capabilities</div>
+      <h2 class="section-title">Everything You Need for Data Analysis</h2>
+      <p class="section-sub mx-auto">From profiling to production monitoring, the plugin covers the entire data analysis lifecycle.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon icon-orange">&#9881;</div>
+        <h3>Multi-Agent Swarm</h3>
+        <p>5 specialist agents work in parallel. The Statistician and Dashboard builder run simultaneously — cutting total analysis time nearly in half.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon icon-blue">&#128268;</div>
+        <h3>MCP Integration</h3>
+        <p>Auto-discover Shopify, databases, Google Sheets, Slack, Gmail, Discord, and more. Pull live data in, push results out — all automated.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon icon-green">&#128202;</div>
+        <h3>Interactive Dashboards</h3>
+        <p>Standalone HTML dashboards with Chart.js. KPI cards with delta indicators, responsive layout, works offline after first load. Open in any browser.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon icon-coral">&#128300;</div>
+        <h3>Domain Auto-Detection</h3>
+        <p>Automatically detects E-Commerce, Marketing, Healthcare, or General data from column names and runs domain-specific analysis patterns.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon icon-ocean">&#128337;</div>
+        <h3>Live Monitoring</h3>
+        <p>Watch your data with CronCreate scheduling. Re-profile every N minutes. Get alerts via Slack or webhook when quality drops.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon icon-yellow">&#127908;</div>
+        <h3>Voice-Friendly</h3>
+        <p>All 18 commands work with Claude Code voice mode. Say "analyze my sales project" and the pipeline runs. Natural speech routing built-in.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon icon-orange">&#128640;</div>
+        <h3>Batch Processing</h3>
+        <p>Analyze 10+ projects in parallel with worktree isolation. Each project gets its own agent. Combined cross-project insights at the end.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon icon-blue">&#128736;</div>
+        <h3>Self-Healing Pipeline</h3>
+        <p>3-attempt auto-recovery: try, auto-fix (install deps, fix paths, handle encoding), WebSearch for unknown errors. Rarely needs manual intervention.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon icon-green">&#129302;</div>
+        <h3>Model-Agnostic</h3>
+        <p>Every instruction is explicit step-by-step. Haiku runs as reliably as Opus. Use fast models for simple tasks, powerful models for deep analysis.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ COMMANDS ═══════════ -->
+<section class="commands-section" id="commands">
+  <div class="container">
+    <div class="text-center">
+      <div class="section-label">Commands</div>
+      <h2 class="section-title">18 Commands. One Plugin.</h2>
+      <p class="section-sub mx-auto">Every command accepts a project name or a full filesystem path. Results always go to <code>output/&lt;project&gt;/</code>.</p>
+    </div>
+
+    <div class="cmd-group">
+      <div class="cmd-group-title">Core Analysis <span class="badge">7 commands</span></div>
+      <table class="cmd-table">
+        <thead><tr><th>Command</th><th>Description</th><th>Model</th></tr></thead>
+        <tbody>
+          <tr><td><code>:analyze</code></td><td>Full 5-agent swarm pipeline — profile, clean, EDA, visualize, report, dashboard</td><td>Sonnet</td></tr>
+          <tr><td><code>:profile</code></td><td>Data profiling and quality assessment</td><td>Haiku</td></tr>
+          <tr><td><code>:clean</code></td><td>Data cleaning and transformation (swarm mode for 10+ files)</td><td>Haiku</td></tr>
+          <tr><td><code>:query</code></td><td>Ask natural language questions about your data</td><td>Sonnet</td></tr>
+          <tr><td><code>:visualize</code></td><td>Generate charts and visualizations</td><td>Haiku</td></tr>
+          <tr><td><code>:report</code></td><td>Comprehensive Markdown analysis report</td><td>Sonnet</td></tr>
+          <tr><td><code>:dashboard</code></td><td>Standalone interactive HTML dashboard</td><td>Sonnet</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="cmd-group">
+      <div class="cmd-group-title">Power Commands <span class="badge">4 commands</span></div>
+      <table class="cmd-table">
+        <thead><tr><th>Command</th><th>Description</th><th>Swarm Pattern</th></tr></thead>
+        <tbody>
+          <tr><td><code>:watch</code></td><td>Live-monitor with CronCreate — re-profile, re-dashboard, or full re-analysis on schedule</td><td>Loop Swarm</td></tr>
+          <tr><td><code>:batch-analyze</code></td><td>Parallel agents per project in isolated worktrees (up to 10 concurrent)</td><td>Worktree Swarm</td></tr>
+          <tr><td><code>:compare</code></td><td>Side-by-side dataset comparison with parallel profiling</td><td>Worktree Pair</td></tr>
+          <tr><td><code>:research</code></td><td>Multi-source web research: Reddit, X, HN, YouTube, web (6 parallel searches)</td><td>Search Swarm</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="cmd-group">
+      <div class="cmd-group-title">System &amp; DevOps <span class="badge">5 commands</span></div>
+      <table class="cmd-table">
+        <thead><tr><th>Command</th><th>Description</th><th>Model</th></tr></thead>
+        <tbody>
+          <tr><td><code>:debug</code></td><td>Auto-diagnose pipeline failures, check deps, match error patterns, search fixes</td><td>Sonnet</td></tr>
+          <tr><td><code>:schedule</code></td><td>Schedule future/recurring tasks via CronCreate</td><td>Haiku</td></tr>
+          <tr><td><code>:notify</code></td><td>Configure webhook notifications for pipeline events</td><td>Haiku</td></tr>
+          <tr><td><code>:simplify</code></td><td>3-agent code review swarm (Reuse + Quality + Efficiency)</td><td>Sonnet</td></tr>
+          <tr><td><code>:api</code></td><td>Export all artifacts as structured JSON, optionally serve on port 8080</td><td>Haiku</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="cmd-group">
+      <div class="cmd-group-title">Integration <span class="badge">2 commands</span></div>
+      <table class="cmd-table">
+        <thead><tr><th>Command</th><th>Description</th><th>Model</th></tr></thead>
+        <tbody>
+          <tr><td><code>:connect</code></td><td>Auto-discover &amp; configure MCP data sources and messaging apps</td><td>Haiku</td></tr>
+          <tr><td><code>:live-update</code></td><td>Send results to connected apps (Slack, Gmail, Discord, Telegram)</td><td>Haiku</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ USE CASES ═══════════ -->
+<section id="use-cases">
+  <div class="container">
+    <div class="text-center">
+      <div class="section-label">Use Cases</div>
+      <h2 class="section-title">Real Problems. Real Solutions.</h2>
+      <p class="section-sub mx-auto">See how teams and founders use 10x-Analyst-Loop to turn raw data into decisions — without writing a single line of code.</p>
+    </div>
+
+    <!-- UC 1 -->
+    <div class="use-case">
+      <div class="uc-text">
+        <div class="uc-number">Use Case 1</div>
+        <div class="uc-title">E-Commerce Revenue Intelligence</div>
+        <div class="uc-persona">"Where is my revenue going?" — Shopify Store Owner</div>
+        <div class="uc-scenario">You run a Shopify store with 50,000+ orders. You export data monthly but never have time to analyze it. You need revenue trends, product performance, customer segmentation, and cohort retention — all automated.</div>
+        <div class="uc-code">
+<span class="comment"># Connect Shopify for live data pulls</span>
+<span class="cmd">/10x-analyst-loop:connect</span> <span class="arg">my-store shopify</span>
+
+<span class="comment"># Run full analysis</span>
+<span class="cmd">/10x-analyst-loop:analyze</span> <span class="arg">my-store</span>
+
+<span class="comment"># Follow up</span>
+<span class="cmd">/10x-analyst-loop:query</span> <span class="arg">my-store "highest CLV segments?"</span>
+<span class="cmd">/10x-analyst-loop:watch</span> <span class="arg">my-store 1h --full</span>
+<span class="cmd">/10x-analyst-loop:live-update</span> <span class="arg">my-store slack</span>
+        </div>
+        <ul class="uc-results">
+          <li>Revenue trend analysis (+23% MoM) with growth drivers identified</li>
+          <li>Top 10 products by revenue — 3 products drive 60% of total</li>
+          <li>RFM segmentation: Champions 12%, At Risk 8%</li>
+          <li>Cohort retention heatmap: Month 3 drop-off at 45%</li>
+          <li>Interactive dashboard + Markdown report + 8 PNG charts</li>
+        </ul>
+        <div class="uc-mcp-tags">
+          <span class="uc-mcp-tag">Shopify MCP</span>
+          <span class="uc-mcp-tag">Slack MCP</span>
+        </div>
+      </div>
+      <div class="uc-visual">
+        <h4 style="font-size:.9rem;font-weight:700;color:var(--midnight);margin-bottom:1rem;">Output Artifacts</h4>
+        <table class="uc-output-table">
+          <thead><tr><th>File</th><th>Contains</th></tr></thead>
+          <tbody>
+            <tr><td>data-profile.md</td><td>50,234 orders, 97.1% quality</td></tr>
+            <tr><td>insights.json</td><td>12 structured findings</td></tr>
+            <tr><td>dashboard.html</td><td>KPI cards, trends, product breakdown</td></tr>
+            <tr><td>report.md</td><td>Executive summary + recommendations</td></tr>
+            <tr><td>charts/</td><td>8 PNG: revenue, products, AOV, RFM, cohort</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- UC 2 -->
+    <div class="use-case reverse">
+      <div class="uc-text">
+        <div class="uc-number">Use Case 2</div>
+        <div class="uc-title">Cross-Platform Campaign Performance</div>
+        <div class="uc-persona">"Which campaigns actually work?" — Marketing Team Lead</div>
+        <div class="uc-scenario">Your team runs campaigns across Google Ads, Meta, and email. You have CSVs from each platform but no unified view. You need cross-platform ROAS, funnel analysis, and budget allocation insights.</div>
+        <div class="uc-code">
+<span class="comment"># Drop all platform exports into one folder</span>
+<span class="cmd">/10x-analyst-loop:analyze</span> <span class="arg">C:/Marketing/Q1-campaigns</span>
+
+<span class="comment"># Compare quarters</span>
+<span class="cmd">/10x-analyst-loop:compare</span> <span class="arg">q1-campaigns q2-campaigns</span>
+
+<span class="comment"># Custom chart</span>
+<span class="cmd">/10x-analyst-loop:visualize</span> <span class="arg">q1-campaigns "ROAS by channel"</span>
+
+<span class="comment"># Schedule weekly report every Monday 9am</span>
+<span class="cmd">/10x-analyst-loop:schedule</span> <span class="arg">q1-campaigns report "every monday 9am"</span>
+        </div>
+        <ul class="uc-results">
+          <li>Domain auto-detected as MARKETING from column names</li>
+          <li>Unified cross-platform view: Google Ads 3.2x ROAS vs Meta 1.8x</li>
+          <li>Email has highest conversion (4.2%) but lowest reach</li>
+          <li>Funnel analysis with drop-off rates per channel</li>
+          <li>Budget reallocation recommendations with expected impact</li>
+        </ul>
+      </div>
+      <div class="uc-visual">
+        <h4 style="font-size:.9rem;font-weight:700;color:var(--midnight);margin-bottom:1rem;">Domain Detection</h4>
+        <div style="background:white;border-radius:8px;padding:1.25rem;font-size:.85rem;color:var(--gray-700);margin-bottom:1rem;">
+          <strong style="color:var(--midnight);">Trigger columns found:</strong><br/>
+          <code style="color:var(--orange);font-size:.82rem;">campaign, clicks, impressions, ctr, conversion</code><br/><br/>
+          <strong style="color:var(--midnight);">Domain:</strong> MARKETING<br/><br/>
+          <strong style="color:var(--midnight);">Auto-runs:</strong> Campaign performance, Channel ROAS, Funnel analysis, Budget efficiency
+        </div>
+        <div style="background:white;border-radius:8px;padding:1.25rem;font-size:.85rem;">
+          <strong style="color:var(--midnight);">Compare output:</strong><br/>
+          <span style="color:var(--gray-500);">comparison-vs-q2-campaigns.md</span><br/>
+          Row counts, quality diffs, metric trends, quarter-over-quarter insights
+        </div>
+      </div>
+    </div>
+
+    <!-- UC 3 -->
+    <div class="use-case">
+      <div class="uc-text">
+        <div class="uc-number">Use Case 3</div>
+        <div class="uc-title">Bulk Dataset Analysis at Scale</div>
+        <div class="uc-persona">"I need to analyze 15 datasets by Friday" — Data Analyst</div>
+        <div class="uc-scenario">You received 15 project datasets from different departments. Each needs profiling, cleaning, and a basic report. Doing them one by one would take days.</div>
+        <div class="uc-code">
+<span class="comment"># Analyze ALL projects in parallel — one agent each</span>
+<span class="cmd">/10x-analyst-loop:batch-analyze</span> <span class="arg">input/*</span>
+
+<span class="comment"># Or specify individual projects</span>
+<span class="cmd">/10x-analyst-loop:batch-analyze</span> <span class="arg">hr-data finance-q1 support-tickets</span>
+        </div>
+        <ul class="uc-results">
+          <li>15 parallel agents in isolated worktrees — one per project</li>
+          <li>Each runs the full :analyze pipeline independently</li>
+          <li>Combined summary table with cross-project insights</li>
+          <li>Total time = roughly one analysis (parallel execution)</li>
+          <li>Failed projects can be retried independently</li>
+        </ul>
+      </div>
+      <div class="uc-visual">
+        <h4 style="font-size:.9rem;font-weight:700;color:var(--midnight);margin-bottom:1rem;">Batch Results</h4>
+        <table class="uc-output-table">
+          <thead><tr><th>#</th><th>Project</th><th>Rows</th><th>Quality</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>hr-data</td><td>12,450</td><td>94.2%</td></tr>
+            <tr><td>2</td><td>finance-q1</td><td>8,320</td><td>98.1%</td></tr>
+            <tr><td>3</td><td>support-tickets</td><td>45,000</td><td>87.3%</td></tr>
+            <tr><td>4</td><td>product-usage</td><td>120,400</td><td>92.7%</td></tr>
+            <tr><td>5</td><td>inventory</td><td>3,200</td><td>99.4%</td></tr>
+          </tbody>
+        </table>
+        <div style="margin-top:1rem;font-size:.82rem;color:var(--gray-500);">+ 10 more projects...</div>
+      </div>
+    </div>
+
+    <!-- UC 4 -->
+    <div class="use-case reverse">
+      <div class="uc-text">
+        <div class="uc-number">Use Case 4</div>
+        <div class="uc-title">Automated Data Quality Monitoring</div>
+        <div class="uc-persona">"Alert me when data quality drops" — Ops Manager</div>
+        <div class="uc-scenario">You have an automated pipeline that dumps CSVs into a folder. Sometimes the export breaks and produces garbage data. You need to know the moment it happens — not days later when dashboards break.</div>
+        <div class="uc-code">
+<span class="comment"># Set up Slack alerts</span>
+<span class="cmd">/10x-analyst-loop:connect</span> <span class="arg">pipeline-data slack #data-alerts</span>
+
+<span class="comment"># Watch every 10 minutes</span>
+<span class="cmd">/10x-analyst-loop:watch</span> <span class="arg">pipeline-data 10m --profile</span>
+
+<span class="comment"># Also notify PagerDuty via webhook</span>
+<span class="cmd">/10x-analyst-loop:notify</span> <span class="arg">pipeline-data https://events.pagerduty.com/v2/enqueue</span>
+        </div>
+        <ul class="uc-results">
+          <li>Re-profiles data every 10 minutes via CronCreate</li>
+          <li>Compares quality score against baseline</li>
+          <li>Slack alert when quality drops &gt;5%: files affected, issue details</li>
+          <li>Webhook POST to PagerDuty with structured JSON payload</li>
+          <li>Full change log in watch-log.md for auditing</li>
+        </ul>
+        <div class="uc-mcp-tags">
+          <span class="uc-mcp-tag">Slack MCP</span>
+          <span class="uc-mcp-tag">Webhook</span>
+          <span class="uc-mcp-tag">CronCreate</span>
+        </div>
+      </div>
+      <div class="uc-visual">
+        <h4 style="font-size:.9rem;font-weight:700;color:var(--midnight);margin-bottom:1rem;">Alert Example (Slack)</h4>
+        <div style="background:white;border-radius:8px;padding:1.25rem;font-size:.85rem;color:var(--gray-700);font-family:'SF Mono',monospace;line-height:1.7;">
+          <span style="color:var(--coral);font-weight:700;">&#9888;&#65039; Data Quality Alert — pipeline-data</span><br/><br/>
+          Quality dropped from <strong>96.4%</strong> to <strong>82.1%</strong><br/>
+          3 new issues detected:<br/>
+          &bull; orders.csv: 14% missing in customer_id<br/>
+          &bull; orders.csv: 230 duplicate rows<br/>
+          &bull; products.csv: encoding error<br/><br/>
+          <span style="color:var(--gray-500);font-size:.8rem;">— 10x Analyst Loop</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- UC 5 -->
+    <div class="use-case">
+      <div class="uc-text">
+        <div class="uc-number">Use Case 5</div>
+        <div class="uc-title">Market Research + Internal Data Analysis</div>
+        <div class="uc-persona">"Research the market and analyze our data" — Startup Founder</div>
+        <div class="uc-scenario">You're building a SaaS product. You need to research competitor pricing trends AND analyze your own user engagement data — then share findings with your product team via Slack and investors via email.</div>
+        <div class="uc-code">
+<span class="comment"># Part 1: Market research (no data files needed)</span>
+<span class="cmd">/10x-analyst-loop:research</span> <span class="arg">"SaaS pricing trends 2026"</span>
+
+<span class="comment"># Part 2: Analyze your own data</span>
+<span class="cmd">/10x-analyst-loop:analyze</span> <span class="arg">user-engagement</span>
+
+<span class="comment"># Part 3: Distribute findings</span>
+<span class="cmd">/10x-analyst-loop:connect</span> <span class="arg">user-engagement slack #product</span>
+<span class="cmd">/10x-analyst-loop:connect</span> <span class="arg">user-engagement gmail</span>
+<span class="cmd">/10x-analyst-loop:live-update</span> <span class="arg">user-engagement slack</span>
+<span class="cmd">/10x-analyst-loop:live-update</span> <span class="arg">user-engagement gmail</span>
+        </div>
+        <ul class="uc-results">
+          <li>6 parallel WebSearches: Reddit, HN, X, YouTube, general web</li>
+          <li>Cross-platform convergence detection (recurring themes)</li>
+          <li>Full engagement analysis: cohort retention, feature usage, churn</li>
+          <li>Auto-send insights to Slack #product and investors via Gmail</li>
+          <li>Research brief saved to output/research/saas-pricing-trends-2026.md</li>
+        </ul>
+        <div class="uc-mcp-tags">
+          <span class="uc-mcp-tag">WebSearch</span>
+          <span class="uc-mcp-tag">Slack MCP</span>
+          <span class="uc-mcp-tag">Gmail MCP</span>
+        </div>
+      </div>
+      <div class="uc-visual">
+        <h4 style="font-size:.9rem;font-weight:700;color:var(--midnight);margin-bottom:1rem;">Research Output</h4>
+        <div style="background:white;border-radius:8px;padding:1.25rem;font-size:.85rem;color:var(--gray-700);margin-bottom:1rem;">
+          <strong style="color:var(--midnight);">saas-pricing-trends-2026.md</strong><br/><br/>
+          <span style="color:var(--orange);font-weight:600;">Key Findings:</span><br/>
+          1. Usage-based pricing up 34% YoY (Reddit + HN consensus)<br/>
+          2. PLG companies shifting to hybrid models<br/>
+          3. AI-native SaaS charging per outcome, not per seat<br/>
+          4. Free tier becoming table stakes for dev tools
+        </div>
+        <div style="background:white;border-radius:8px;padding:1.25rem;font-size:.85rem;color:var(--gray-700);">
+          <strong style="color:var(--midnight);">Live Update Sent:</strong><br/>
+          Slack #product + Gmail investors@company.com<br/>
+          <span style="color:var(--green);">&#10003; Delivered</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ MCP INTEGRATION ═══════════ -->
+<section id="mcp" style="background: var(--gray-50);">
+  <div class="container">
+    <div class="text-center">
+      <div class="section-label">MCP Integration</div>
+      <h2 class="section-title">Connect Everything. Automate Everything.</h2>
+      <p class="section-sub mx-auto">MCP (Model Context Protocol) servers extend the plugin with external data sources, messaging, and actions. Auto-discovered at runtime — zero hardcoding.</p>
+    </div>
+
+    <div class="mcp-diagram">
+      <div class="mcp-cols">
+        <div class="mcp-col">
+          <div class="mcp-col-title" style="color:var(--blue);">Data Sources</div>
+          <ul class="mcp-items">
+            <li>Shopify</li>
+            <li>PostgreSQL / Supabase</li>
+            <li>Google Sheets</li>
+            <li>Notion</li>
+            <li>Airtable</li>
+            <li>Stripe</li>
+          </ul>
+        </div>
+        <div class="mcp-col">
+          <div class="mcp-col-title" style="color:var(--green);">Messaging</div>
+          <ul class="mcp-items">
+            <li>Slack</li>
+            <li>Gmail</li>
+            <li>Discord</li>
+            <li>Telegram</li>
+            <li>Microsoft Teams</li>
+          </ul>
+        </div>
+        <div class="mcp-col">
+          <div class="mcp-col-title" style="color:var(--orange);">Actions</div>
+          <ul class="mcp-items">
+            <li>Composio</li>
+            <li>Zapier</li>
+            <li>Webhooks</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="mcp-flow">
+      <div class="mcp-flow-step">
+        <div class="step-icon">&#128269;</div>
+        <h4>Discover</h4>
+        <p><code>:connect</code> runs 9+ parallel ToolSearch calls to find all available MCPs</p>
+      </div>
+      <div class="mcp-flow-step">
+        <div class="step-icon">&#128204;</div>
+        <h4>Configure</h4>
+        <p>Discovered tools are classified and saved to <code>.mcp-config.json</code></p>
+      </div>
+      <div class="mcp-flow-step">
+        <div class="step-icon">&#9889;</div>
+        <h4>Automate</h4>
+        <p>Pipeline stages auto-pull data and push results through connected MCPs</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ ARCHITECTURE ═══════════ -->
+<section id="architecture">
+  <div class="container">
+    <div class="text-center">
+      <div class="section-label">Architecture</div>
+      <h2 class="section-title">5-Agent Swarm Pipeline</h2>
+      <p class="section-sub mx-auto">An orchestrated pipeline of specialist agents with parallel execution at key stages for maximum throughput and token efficiency.</p>
+    </div>
+    <div class="architecture-visual"><span class="arch-dim">                        User Request (text or voice)</span>
+<span class="arch-dim">                                    |</span>
+<span class="arch-dim">                                    v</span>
+                          <span class="arch-orange">+-------------------+</span>
+                          <span class="arch-orange">|   ORCHESTRATOR    |</span>  <span class="arch-dim">&lt;-- INDEX.md routes everything</span>
+                          <span class="arch-orange">|  (Skill Router)   |</span>
+                          <span class="arch-orange">+--------+----------+</span>
+<span class="arch-dim">                                   |</span>
+<span class="arch-dim">            +------+---------------+---------------+----------+</span>
+<span class="arch-dim">            v      v               v               v          v</span>
+       <span class="arch-blue">+---------+</span> <span class="arch-green">+---------+</span> <span class="arch-yellow">+----------+</span> <span class="arch-blue">+--------+</span> <span class="arch-orange">+----------+</span>
+       <span class="arch-blue">|  Data   |</span> <span class="arch-green">|  Stats  |</span> <span class="arch-yellow">|Visualizer|</span> <span class="arch-blue">|Reporter|</span> <span class="arch-orange">|Strategist|</span>
+       <span class="arch-blue">| Engineer|</span> <span class="arch-green">|  ician  |</span> <span class="arch-yellow">|          |</span> <span class="arch-blue">|        |</span> <span class="arch-orange">|          |</span>
+       <span class="arch-blue">+----+----+</span> <span class="arch-green">+----+----+</span> <span class="arch-yellow">+----+-----+</span> <span class="arch-blue">+---+----+</span> <span class="arch-orange">+----+-----+</span>
+<span class="arch-dim">            |         |          |            |         |</span>
+<span class="arch-dim">            v         v          v            v         v</span>
+         Clean &amp;    EDA &amp;     Charts &amp;     Markdown   Business
+         Profile    Stats     Dashboard    Report     Actions</div>
+
+    <!-- Domain detection -->
+    <div style="margin-top:3rem;">
+      <h3 style="font-size:1.3rem;font-weight:700;color:var(--midnight);margin-bottom:1.5rem;text-align:center;">Auto-Detected Domains</h3>
+      <div class="domain-grid">
+        <div class="domain-card">
+          <div class="domain-icon">&#128722;</div>
+          <h3>E-Commerce</h3>
+          <div class="trigger">Columns: <code>order</code> <code>revenue</code> <code>price</code> <code>product</code> <code>customer</code></div>
+          <ul>
+            <li>Revenue trends &amp; MoM growth</li>
+            <li>Top products by revenue</li>
+            <li>Average Order Value (AOV)</li>
+            <li>RFM customer segmentation</li>
+            <li>Cohort retention analysis</li>
+          </ul>
+        </div>
+        <div class="domain-card">
+          <div class="domain-icon">&#128200;</div>
+          <h3>Marketing</h3>
+          <div class="trigger">Columns: <code>campaign</code> <code>clicks</code> <code>impressions</code> <code>ctr</code> <code>conversion</code></div>
+          <ul>
+            <li>Campaign performance comparison</li>
+            <li>Channel ROAS analysis</li>
+            <li>Funnel analysis &amp; drop-offs</li>
+            <li>Budget allocation efficiency</li>
+          </ul>
+        </div>
+        <div class="domain-card">
+          <div class="domain-icon">&#127973;</div>
+          <h3>Healthcare</h3>
+          <div class="trigger">Columns: <code>patient</code> <code>diagnosis</code> <code>treatment</code> <code>medication</code></div>
+          <ul>
+            <li>Outcome distributions</li>
+            <li>Treatment comparisons</li>
+            <li>Time-to-event analysis</li>
+          </ul>
+        </div>
+        <div class="domain-card">
+          <div class="domain-icon">&#128202;</div>
+          <h3>General Tabular</h3>
+          <div class="trigger">Any other column patterns</div>
+          <ul>
+            <li>Correlation matrix (flag |r| &gt; 0.7)</li>
+            <li>Distributions &amp; group-by aggregations</li>
+            <li>Anomaly detection (IQR method)</li>
+            <li>Pareto analysis (80/20 rule)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ STATUSLINE ═══════════ -->
+<section style="background: var(--gray-50);">
+  <div class="container">
+    <div class="text-center">
+      <div class="section-label">Bundled Statusline</div>
+      <h2 class="section-title">Real-Time Session Monitoring</h2>
+      <p class="section-sub mx-auto">Track tokens, costs, active agents, scheduled jobs, and context usage — all in your terminal. 5 themes, 4 layouts.</p>
+    </div>
+    <div class="statusline-preview" style="margin: 0 auto;">
+      <span class="sl-dim"> Skill:</span> <span class="sl-orange">Agent</span>          <span class="sl-dim">│  GitHub:</span> user/repo/main
+ <span class="sl-dim">Model:</span> <span class="sl-blue">Claude Opus</span>    <span class="sl-dim">│  Dir:</span> projects/my-data
+ <span class="sl-dim">Tokens:</span> 45k in + 12k out  <span class="sl-dim">│  Cost:</span> <span class="sl-green">$0.32</span> ($0.04/m)
+ <span class="sl-dim">Session:</span> 57k total (8 calls)  <span class="sl-dim">│</span>  $0.0400/call  +120/-15  2m30s
+ <span class="sl-dim">Cache:</span> W:12k R:33k    <span class="sl-dim">│</span>  @main
+ <span class="sl-dim">Agents:</span> <span class="sl-green">&#9679;&#9679;&#9679;</span> (3)  <span class="sl-dim">│  Cron:</span> <span class="sl-yellow">&#9670;</span> (1)
+ <span class="sl-bar-filled">&#9648;&#9648;&#9648;&#9648;&#9648;</span><span class="sl-bar-empty">&#9647;&#9647;&#9647;</span> <span class="sl-yellow">HIGH</span> 15% remaining
+ <span class="sl-dim">Context:</span> <span class="sl-orange">&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;</span><span class="sl-bar-empty">&#9617;&#9617;&#9617;&#9617;&#9617;&#9617;&#9617;&#9617;</span> 85%
+    </div>
+    <div style="display:flex;gap:1rem;justify-content:center;margin-top:1.5rem;flex-wrap:wrap;">
+      <span style="font-size:.85rem;color:var(--gray-500);background:var(--white);padding:.4rem 1rem;border-radius:999px;border:1px solid var(--gray-200);">default</span>
+      <span style="font-size:.85rem;color:var(--gray-500);background:var(--white);padding:.4rem 1rem;border-radius:999px;border:1px solid var(--gray-200);">nord</span>
+      <span style="font-size:.85rem;color:var(--gray-500);background:var(--white);padding:.4rem 1rem;border-radius:999px;border:1px solid var(--gray-200);">tokyo-night</span>
+      <span style="font-size:.85rem;color:var(--gray-500);background:var(--white);padding:.4rem 1rem;border-radius:999px;border:1px solid var(--gray-200);">catppuccin</span>
+      <span style="font-size:.85rem;color:var(--gray-500);background:var(--white);padding:.4rem 1rem;border-radius:999px;border:1px solid var(--gray-200);">gruvbox</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ CTA ═══════════ -->
+<section class="cta-section">
+  <div class="container" style="max-width:700px;">
+    <div class="section-label" style="color:rgba(255,255,255,.5);">Get Started</div>
+    <h2 class="section-title">Turn Raw Data Into Decisions</h2>
+    <p class="section-sub mx-auto">One command. Five agents. Zero config. Works on Haiku, Sonnet, and Opus.</p>
+    <div class="cta-code">
+      <span class="hl">/10x-analyst-loop:analyze</span> your-data
+    </div>
+    <br/><br/>
+    <a href="https://github.com/OpenAnalystInc/10x-analyst-loop" class="btn btn-primary" target="_blank" style="font-size:1.1rem;padding:1rem 2.5rem;">View on GitHub</a>
+    <a href="https://10x.in" class="btn btn-outline" target="_blank" style="font-size:1.1rem;padding:1rem 2.5rem;border-color:rgba(255,255,255,.3);color:white;">Visit 10x.in</a>
+  </div>
+</section>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer>
+  <div class="footer-brand">10x-Analyst-Loop v2.1.1</div>
+  <p>Built by the <strong>10x Team</strong> at <a href="https://10x.in">10x.in</a></p>
+  <p style="margin-top:.5rem;"><a href="https://github.com/OpenAnalystInc/10x-analyst-loop" style="color:var(--gray-300);">github.com/OpenAnalystInc/10x-analyst-loop</a></p>
+  <p style="margin-top:.75rem;">Proprietary Software &mdash; Copyright &copy; 2024-2026 10x.in. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

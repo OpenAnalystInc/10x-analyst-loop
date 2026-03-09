@@ -1,0 +1,10 @@
+{
+  "theme": "default",
+  "layout": "10x-swarm",
+  "compaction_warning_threshold": 85,
+  "bar_width": 40,
+  "cache_ttl_seconds": 5,
+  "show_burn_rate": true,
+  "show_vim_mode": true,
+  "show_agent_name": true
+}

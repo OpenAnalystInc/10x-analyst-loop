@@ -1,0 +1,42 @@
+{
+  "name": "10x-analyst-loop",
+  "description": "Supercharged agentic data analysis swarm by 10x.in — 18 skills, 5 specialist agents, agent swarms with worktree isolation, /loop scheduling, MCP integration, webhook notifications, cron scheduling, bundled statusline with session tracking, voice-friendly commands, and dynamic context injection. Works flawlessly on Haiku, Sonnet, and Opus.",
+  "version": "2.1.1",
+  "author": {
+    "name": "10x.in",
+    "url": "https://10x.in"
+  },
+  "homepage": "https://openanalystinc.github.io/10x-analyst-loop/",
+  "repository": "https://github.com/OpenAnalystInc/10x-analyst-loop",
+  "license": "Proprietary",
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(python *)",
+      "Bash(mkdir *)",
+      "Bash(pip install *)",
+      "CronCreate"
+    ]
+  },
+  "claude_code": {
+    "min_version": "2.1.63",
+    "features_used": [
+      "skills-v2",
+      "context-fork",
+      "worktree-isolation",
+      "loop-scheduling",
+      "cron-tools",
+      "dynamic-context-injection",
+      "argument-substitutions",
+      "supporting-files",
+      "batch-parallel-agents",
+      "voice-friendly",
+      "http-hooks",
+      "pre-post-hooks",
+      "mcp-integration",
+      "agent-swarms",
+      "session-tracking",
+      "bundled-statusline"
+    ]
+  }
+}

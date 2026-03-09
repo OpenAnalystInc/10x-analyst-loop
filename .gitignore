@@ -1,0 +1,30 @@
+# Credentials — NEVER commit these
+.env
+.mcp.json
+.claude/settings.local.json
+
+# Output data (generated per-project)
+output/
+input/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Node
+node_modules/
+package-lock.json
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# Temp
+*.tmp
+*.log
+*.swp
+*~
